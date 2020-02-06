@@ -1,3 +1,3 @@
 # luettelobackend
 
-Sivusto:     https://luettelopro.herokuapp.com/api/persons
+Sivusto:     https://luettelopro.herokuapp.com/
