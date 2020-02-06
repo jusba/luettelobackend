@@ -1,4 +1,9 @@
 .node_modules
 .node_modules/
 *.node_modules
+<<<<<<< HEAD
 *.node_modules/
+=======
+*.node_modules/
+
+>>>>>>> 5256dd0b0ebe643167d3747885196603a24ef983
