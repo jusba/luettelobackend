@@ -1,12 +1,15 @@
+require('dotenv').config()
+
 const express = require('express')
 var morgan = require('morgan')
 const app = express()
 const cors = require('cors')
 app.use(express.static('build'))
+const Person = require('./models/node')
 
 morgan.token('info', function (req, res) 
     
-    {if (req.method === "POST"){
+    {if (req.method === "POST"){const Note = require('./models/note')
         return JSON.stringify(req.body)} 
     })
 
@@ -47,18 +50,17 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    console.log(Person.find({}))
+    Person.find({}).then(persons =>{
+        res.json(persons)
+    })
+    
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id|| console.log(person.id))
-    if (person){
-        response.json(person)
-    } else {
-        response.status(404).end()    
-    }
-   
+    Person.findById(request.params.id).then(person =>{
+        response.json(person.toJSON())
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -70,7 +72,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const id = Math.floor(Math.random() * Math.floor(9999))
-    if (!request.body.number || !request.body.name){
+    if (request.body.number === undefined || request.body.name === undefined){
         return response.status(400).json({
             error: 'name or number missing'
         })
@@ -81,10 +83,17 @@ app.post('/api/persons', (request, response) => {
             error: "name must be unique" + request.body.name
         })
     }
-    const person = request.body
-    person.id = id
+    const person = new Person({
+        name: request.body.name,
+        number: request.body.number
+    })
+    person.save().then(savedPerson =>{
+        response.json(savedPerson.toJSON())
+    })
+    
+    /*person.id = id
     persons = persons.concat(person)    
-    response.json(person)
+    response.json(person)*/
 
 })
 
