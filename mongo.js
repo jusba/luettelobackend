@@ -9,35 +9,35 @@ const url = `mongodb+srv://jusba:${password}@fullstack-2encc.mongodb.net/people?
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 console.log(password)
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String
-    
-  })
+  name: String,
+  number: String
+
+})
 const Person = mongoose.model('Person', personSchema)
 
 const person = new Person({
-    name: nameinput,
-    number: numberinput
-  })
-  
+  name: nameinput,
+  number: numberinput
+})
+
 if (nameinput === undefined || numberinput === undefined){
-    console.log("Phonebook:")
-    Person.find({}).then(result => {
-      console.log("tänne", result)
-        result.forEach(person => {
-          console.log(
-            person.name,person.number
-          
-          )
-        })
-        mongoose.connection.close()
-      })
+  console.log('Phonebook:')
+  Person.find({}).then(result => {
+    console.log('tänne', result)
+    result.forEach(person => {
+      console.log(
+        person.name,person.number
+
+      )
+    })
+    mongoose.connection.close()
+  })
 }else {
   person.save().then(response => {
-    console.log('Added',person.name, "number", person.number,"to phonebook");
-    mongoose.connection.close();
+    console.log('Added',person.name, 'number', person.number,'to phonebook')
+    mongoose.connection.close()
   })
 
 }
 
- 
+
